@@ -1,0 +1,140 @@
+You need to implement a class for Dequeue i.e. for double ended queue. In this queue, elements can be inserted and deleted from both the ends.
+/**********
+ 
+ Following is the main function we are using internally.
+ Refer this for completing the Dequeue class.
+ 
+ 
+ int main()
+ {
+ Deque dq(10);
+ int choice,input;
+ while(true) {
+ cin >> choice;
+ switch (choice) {
+ case 1:
+ cin >> input;
+ dq.insertfront(input);
+ break;
+ case 2:
+ cin >> input;
+ dq.insertrear(input);
+ break;
+ case 3:
+ dq.deletefront();
+ break;
+ case 4:
+ dq.deleterear();
+ break;
+ case 5:
+ cout << dq.getFront() << "\n";
+ break;
+ case 6:
+ cout << dq.getRear() << "\n";
+ break;
+ default:
+ return 0;
+ }
+ }
+ 
+ return 0;
+ }
+ 
+ ************/
+class Node{
+    public:
+    int data;
+    Node* next;
+    Node(int element){
+        data=element;
+        next=NULL;
+    }
+};
+
+class Deque {
+    Node* head;
+    Node* tail;
+    int size;
+    int capacity;
+    public:
+    Deque(int totalSize){
+        head=NULL;
+        tail=NULL;
+        size=0;
+        capacity=totalSize;
+    }
+    void insertFront(int element){
+        if(size==capacity){
+            cout<<"-1"<<endl;
+            return;
+        }
+        else{
+          Node* newnode=new Node(element);
+          if(head==NULL){
+            head=newnode;
+            tail=newnode;
+          }
+           else{
+            newnode->next=head;
+            head=newnode;
+          }
+            size++;
+        }
+    }
+    void insertRear(int element){
+       if(size==capacity){
+            cout<<"-1"<<endl;
+            return;
+        }
+        else{
+            Node* newnode=new Node(element);
+            if(head==NULL){
+                head=newnode;
+                tail=newnode;
+            }
+            else{
+                tail->next=newnode;
+                tail=newnode;
+            }
+            size++;
+        }
+    }
+    void deleteFront(){
+        if(size==0){
+            cout<<"-1"<<endl;
+        }
+        else{
+            Node* temp=head;
+            head=head->next;
+            delete temp;
+            size--;
+        }
+    }
+    void deleteRear(){
+        if(size==0){
+            cout<<"-1"<<endl;
+        }
+        else{
+            Node* temp=head;
+            while(temp->next!=tail){
+                temp=temp->next;
+            }
+            Node* a=tail;
+            tail=temp;
+            delete a;
+            size--;
+        }
+    }
+    int getFront(){
+        if(size==0){
+            return -1;
+        }
+        return head->data;
+    }
+    int getRear(){
+        if(size==0){
+            return -1;
+        }
+        return tail->data;
+    }
+};
