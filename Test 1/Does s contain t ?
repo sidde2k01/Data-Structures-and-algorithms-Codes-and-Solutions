@@ -1,0 +1,17 @@
+bool checksequenece(char large[] , char*small) {
+    int i=0;
+    int j=0;
+    while(large[i]!='\0'){
+        if(large[i]!=small[j]){
+            i++;
+        }
+        else{
+            i++;
+            j++;
+            if(small[j]=='\0'){
+                return true;
+            }
+        }
+    }
+    return false;
+}
