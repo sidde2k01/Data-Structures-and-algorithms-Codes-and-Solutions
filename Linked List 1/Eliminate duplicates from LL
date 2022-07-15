@@ -1,0 +1,40 @@
+/****************************************************************
+ 
+    Following is the class structure of the Node class:
+
+        class Node
+        {
+        public:
+	        int data;
+	        Node *next;
+	        Node(int data)
+	        {
+		        this->data = data;
+		        this->next = NULL;
+	        }
+        };
+
+*****************************************************************/
+
+Node *removeDuplicates(Node *head){
+    if(head==NULL||head->next==NULL){
+        return head;
+    }
+    Node* unique=head;
+    Node* temp=head->next;
+    while(temp!=NULL){
+        while(unique->data==temp->data){
+            Node* a=temp;
+            temp=temp->next;
+            delete a;
+            if(temp==NULL){
+                unique->next=NULL;
+                return head;
+            }
+        }
+        unique->next=temp;
+        unique=temp;
+        temp=temp->next;
+    }
+    return head;
+}
