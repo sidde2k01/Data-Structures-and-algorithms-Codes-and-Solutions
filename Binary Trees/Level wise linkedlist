@@ -1,0 +1,77 @@
+/**********************************************************
+
+	Following are the Binary Tree Node class structure and
+	the Node class structure
+
+	template <typename T>
+	class BinaryTreeNode {
+    	public: 
+    	T data;
+    	BinaryTreeNode<T> *left;
+    	BinaryTreeNode<T> *right;
+
+    	BinaryTreeNode(T data) {
+        	this->data = data;
+        	left = NULL;
+        	right = NULL;
+    	}
+	};
+
+	template <typename T>
+	class Node {
+		public:
+    	T data;
+    	Node<T> *next;
+    	Node(T data) {
+        	this->data=data;
+        	this->next=NULL;
+    	}
+	};
+
+***********************************************************/
+#include<queue>
+#include<vector>
+vector<Node<int>*> constructLinkedListForEachLevel(BinaryTreeNode<int> *root) {
+    if(root==NULL){
+        vector<Node<int>*> ans;
+        return ans;
+    }
+    Node<int>* head=NULL;
+    Node<int>* tail=NULL;
+    queue<BinaryTreeNode<int>*> pendingnodes;
+    vector<Node<int>*> ans;
+    pendingnodes.push(root);
+    pendingnodes.push(NULL);
+    while(pendingnodes.size()!=0){
+        BinaryTreeNode<int>* front=pendingnodes.front();
+        pendingnodes.pop();
+        if(front==NULL){
+            tail->next=NULL;
+            ans.push_back(head);
+            head=NULL;
+            tail=NULL;
+            if(pendingnodes.size()==0){
+                break;
+            }
+            pendingnodes.push(NULL);
+        }
+        else{
+        Node<int>* newnode=new Node<int>(front->data);
+        if(head==NULL){
+            head=newnode;
+            tail=newnode;
+        }
+        else{
+            tail->next=newnode;
+            tail=newnode;
+        }
+        if(front->left!=NULL){
+            pendingnodes.push(front->left);
+        }
+        if(front->right!=NULL){
+            pendingnodes.push(front->right);
+        }
+      }
+    }
+    return ans;
+}
