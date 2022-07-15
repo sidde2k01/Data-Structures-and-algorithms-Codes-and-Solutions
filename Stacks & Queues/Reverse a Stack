@@ -1,0 +1,19 @@
+void reverseStack(stack<int> &input, stack<int> &extra) {
+    if(input.empty()||input.size()==1){
+        return;
+    }
+    int topmost=input.top();
+    input.pop();
+    reverseStack(input,extra);
+    while(!input.empty()){
+        int ans=input.top();
+        input.pop();
+        extra.push(ans);
+    }
+    input.push(topmost);
+    while(!extra.empty()){
+        int ans=extra.top();
+        extra.pop();
+        input.push(ans);
+    }
+}
