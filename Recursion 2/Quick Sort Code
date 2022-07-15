@@ -1,0 +1,40 @@
+int partition(int input[],int start,int end){
+    int x=input[start];
+    int count=0;
+    for(int i=start+1;i<=end;i++){
+        if(input[i]<=x){
+            count++;
+        }
+    }
+    int nextindex=start+count;
+    input[start]=input[nextindex];
+    input[nextindex]=x;
+    int i=start;
+    int j=end;
+    while(i<nextindex&&j>nextindex){
+        if(input[i]<=x){
+            i++;
+        }
+        else if(input[j]>x){
+            j--;
+        }
+        else{
+            int temp=input[i];
+            input[i]=input[j];
+            input[j]=temp;
+            i++;j--;
+        }
+    }
+    return nextindex;
+}
+void quicksort(int input[],int start,int end){
+    if(start>=end){
+        return;
+    }
+    int c=partition(input,start,end);
+    quicksort(input,start,c-1);
+    quicksort(input,c+1,end);
+}
+void quickSort(int input[], int size) {
+  quicksort(input,0,size-1);
+}
