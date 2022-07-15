@@ -1,0 +1,20 @@
+#include<string>
+#include <bits/stdc++.h> 
+bool helper(char input[],int start,int end){
+    int length=(end-start)+1;
+    if(length==1||length==0){
+        return true;
+    }
+    if(input[start]!=input[end]){
+        return false;
+    }
+    bool ans=helper(input,start+1,end-1);
+    return ans;
+}
+
+bool checkPalindrome(char input[]) {
+    return helper(input,0,strlen(input)-1);
+
+}
+
+
