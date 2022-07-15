@@ -1,0 +1,20 @@
+
+int helper(int input[],int startindex,int n,int output[][20]){
+    if(startindex==n){
+        output[0][0]=0;
+        return 1;
+    }
+    int smalloutput=helper(input,startindex+1,n,output);
+    for(int i=0;i<smalloutput;i++){
+        output[i+smalloutput][0]=output[i][0]+1;
+        output[i+smalloutput][1]=input[startindex];
+        for(int j=2;j<=output[i+smalloutput][0];j++){
+            output[i+smalloutput][j]=output[i][j-1];
+        }
+        
+    }
+    return 2*smalloutput;
+}
+int subset(int input[], int n, int output[][20]) {
+    return helper(input,0,n,output);
+}
