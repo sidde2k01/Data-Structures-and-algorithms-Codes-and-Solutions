@@ -1,0 +1,32 @@
+
+int subsetSumToK(int input[], int n, int output[][50], int k) {
+    if(n==0){
+        if(k==0){
+            output[0][0]=0;
+            return 1;
+        }
+        else{
+            return 0;
+        }
+    }
+    int op1[1000][50];
+    int op2[1000][50];
+    int so1=subsetSumToK(input+1,n-1,op1,k-input[0]);
+    int so2=subsetSumToK(input+1,n-1,op2,k);
+    int p=0;
+    for(int i=0;i<so1;i++){
+        output[i][0]=op1[i][0]+1;
+        output[i][1]=input[0];
+        for(int j=2;j<=output[i][0];j++){
+            output[i][j]=op1[i][j-1];
+        }
+        p++;
+    }
+    for(int i=0;i<so2;i++){
+        output[i+p][0]=op2[i][0];
+        for(int j=1;j<=output[i+p][0];j++){
+            output[i+p][j]=op2[i][j];
+        }
+    }
+    return so1+so2;
+}
