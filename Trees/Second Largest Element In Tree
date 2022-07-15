@@ -1,0 +1,119 @@
+/********************
+
+    Following is the structure for the TreeNode class
+
+    template <typename T>
+    class TreeNode {
+     public:
+        T data;
+        vector<TreeNode<T>*> children;
+
+        TreeNode(T data) {
+            this->data = data;
+        }
+
+        ~TreeNode() {
+            for (int i = 0; i < children.size(); i++) {
+                delete children[i];
+            }
+        }
+    };
+
+********************/
+class Pair{
+    public:
+    TreeNode<int>* Max;
+    TreeNode<int>* SecMax;
+    Pair(){
+        Max=NULL;
+        SecMax=NULL;
+    }
+    
+};
+Pair helper(TreeNode<int>* root){
+    Pair ans;
+    ans.Max=root;
+    for(int i=0;i<root->children.size();i++){
+        Pair temp=helper(root->children[i]);
+        if(ans.SecMax==NULL&&temp.SecMax==NULL){
+            if(ans.Max->data>temp.Max->data){
+                ans.SecMax=temp.Max;
+            }
+            else if(ans.Max->data==temp.Max->data){
+                continue;
+            }
+            else{
+                ans.SecMax=ans.Max;
+                ans.Max=temp.Max;
+            }
+        }
+        else if(ans.SecMax==NULL){
+            if(ans.Max->data<temp.Max->data){
+                TreeNode<int> *hold=ans.Max;
+                ans.Max=temp.Max;
+                if(hold->data<temp.SecMax->data){
+                    ans.SecMax=temp.SecMax;
+                }
+                else{
+                    ans.SecMax=hold;
+                }
+            }
+            else if(ans.Max->data==temp.Max->data){
+                ans.SecMax=temp.SecMax;
+            }
+            else{
+                ans.SecMax=temp.Max;
+            }
+        }
+        else if(temp.SecMax==NULL){
+            if(temp.Max->data>ans.Max->data){
+                ans.SecMax=ans.Max;
+                ans.Max=temp.Max;
+            }
+            else if(temp.Max->data==ans.Max->data){
+                continue;
+            }
+            else{
+                if(ans.SecMax->data>=temp.Max->data){
+                    continue;
+                }
+                else{
+                    ans.SecMax=temp.Max;
+                }
+            }
+        }
+        else{
+            if(ans.Max->data>temp.Max->data){
+                if(ans.SecMax->data<temp.Max->data){
+                    ans.SecMax=temp.Max;
+                }
+            }
+            else if(ans.Max->data==temp.Max->data){
+                if(ans.SecMax->data<temp.SecMax->data){
+                    ans.SecMax=temp.SecMax;
+                }
+            }
+            else{
+                TreeNode<int>* hold=ans.Max;
+                ans.Max=temp.Max;
+                if(hold->data>=temp.SecMax->data){
+                    ans.SecMax=hold;
+                }
+                else{
+                    ans.SecMax=temp.SecMax;
+                }
+            }
+        }
+    }
+    return ans;
+}
+TreeNode<int>* getSecondLargestNode(TreeNode<int>* root) {
+    if(root==NULL){
+        return NULL;
+    }
+    if(root->children.size()==0){
+        return NULL;
+    }
+    Pair ans=helper(root);
+    return ans.SecMax;
+}
