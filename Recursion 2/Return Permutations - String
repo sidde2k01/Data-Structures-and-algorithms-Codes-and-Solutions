@@ -1,0 +1,19 @@
+#include <string>
+using namespace std;
+
+int returnPermutations(string input, string output[]){
+   	if(input.empty()){
+        output[0]="";
+        return 1;
+    }
+    string smalloutput1[10000];
+    int smalloutput=returnPermutations(input.substr(1),smalloutput1);
+    int k=0;
+    for(int i=0;i<smalloutput;i++){
+        for(int j=0;j<=smalloutput1[i].length();j++){
+            output[k]=smalloutput1[i].substr(0,j)+input[0]+smalloutput1[i].substr(j);
+            k++;
+        }
+    }
+    return k;
+}
