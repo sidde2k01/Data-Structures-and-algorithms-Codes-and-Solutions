@@ -1,0 +1,32 @@
+/****************************************************************
+ 
+    Following is the class structure of the Node class:
+
+        class Node
+        {
+        public:
+	        int data;
+	        Node *next;
+	        Node(int data)
+	        {
+		        this->data = data;
+		        this->next = NULL;
+	        }
+        };
+
+*****************************************************************/
+
+Node *reverseLinkedList(Node *head) {
+    if(head==NULL||head->next==NULL){
+        return head;
+    }
+    Node* prevptr=NULL;
+    Node* currentptr=head;
+    while(currentptr!=NULL){
+        Node* nextptr=currentptr->next;
+        currentptr->next=prevptr;
+        prevptr=currentptr;
+        currentptr=nextptr;
+    }
+    return prevptr;
+}
