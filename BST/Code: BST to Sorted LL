@@ -1,0 +1,60 @@
+/**********************************************************
+
+	Following are the Binary Tree Node class structure and the 
+	Node class structure
+
+	template <typename T>
+	class BinaryTreeNode {
+    	public: 
+    	T data;
+    	BinaryTreeNode<T> *left;
+    	BinaryTreeNode<T> *right;
+
+    	BinaryTreeNode(T data) {
+        	this->data = data;
+        	left = NULL;
+        	right = NULL;
+    	}
+	};
+
+	template <typename T>
+ 	class Node{
+    	public:
+    	T data;
+    	Node<T> *next;
+
+    	Node(T data) {
+        	this->data = data;
+        	this->next = NULL;
+    	}
+ 	};
+
+***********************************************************/
+pair<Node<int>*,Node<int>*> helper(BinaryTreeNode<int>* root){
+    if(root==NULL){
+        pair<Node<int>*,Node<int>*> ans;
+        ans.first=NULL;
+        ans.second=NULL;
+        return ans;
+    }
+    pair<Node<int>*,Node<int>*> leftAns=helper(root->left);
+    pair<Node<int>*,Node<int>*> rightAns=helper(root->right);
+    Node<int>* newnode=new Node<int>(root->data);
+    if(leftAns.first==NULL){
+        newnode->next=rightAns.first;
+        pair<Node<int>*,Node<int>*> finalAns;
+        finalAns.first=newnode;
+        finalAns.second=rightAns.second;
+        return finalAns;
+    }
+    leftAns.second=newnode;
+    newnode->next=rightAns.first;
+    pair<Node<int>*,Node<int>*> ans;
+    ans.first=leftAns.first;
+    ans.second=rightAns.second;
+    return ans;
+}
+Node<int>* constructLinkedList(BinaryTreeNode<int>* root) {
+	pair<Node<int>*,Node<int>*> ans=helper(root);
+    return ans.first;
+}
