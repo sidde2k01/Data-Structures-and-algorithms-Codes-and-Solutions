@@ -1,0 +1,11 @@
+int sumOfDigits(int n) {
+    if(n==0){
+        return 0;
+    }
+    int sum=sumOfDigits(n/10);
+    int lastdigit=n%10;
+    return sum+lastdigit;
+
+}
+
+
