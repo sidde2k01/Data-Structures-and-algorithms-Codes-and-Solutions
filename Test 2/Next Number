@@ -1,0 +1,47 @@
+/**********
+ * Following is the Node class that is already written.
+ 
+class Node{
+public:
+    int data;
+    Node *next;
+    Node(int data){
+        this -> data = data;
+        this -> next = NULL;
+    }
+};
+ 
+*********/
+
+Node* NextLargeNumber(Node *head) {
+    Node* tail=head;
+    while(tail->next!=NULL){
+        tail=tail->next;
+    }
+    if(tail->data!=9){
+        tail->data=tail->data+1;
+    }
+    else{
+        while(tail!=head){
+        Node* prev=head;
+            while(prev->next!=tail){
+                prev=prev->next;
+            }
+            if(prev->data==9){
+                tail->data=0;
+                if(tail->next==NULL){
+                Node* newnode=new Node(0);
+                tail->next=newnode;
+                }
+                else{
+                    tail->data=0;
+                }
+                tail=prev;
+            }
+        }
+        tail->data=1;
+    }
+    return head;
+}
+
+
