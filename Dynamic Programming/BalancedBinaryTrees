@@ -1,0 +1,58 @@
+#include<iostream>
+#include<cmath>
+using namespace std;
+int balancedBTs_3(int n){
+    int *ans=new int[n+1];
+    int mod=(int)pow(10,9)+7;
+    ans[0]=1;
+    ans[1]=1;
+    for(int i=2;i<=n;i++){
+        ans[i]=(ans[i-1]*((2*ans[i-2])%mod+ans[i-1])%mod)%mod;
+    }
+    return ans[n];
+}
+int balancedBTs_helper(int h,int*ans){
+    if(h<=1){
+        return 1;
+    }
+    if(ans[h]!=-1){
+        return ans[h];
+    }
+    int mod=(int) (pow(10,9))+7;
+    int x=balancedBTs_helper(h-1,ans);
+    int y=balancedBTs_helper(h-2,ans);
+    int temp1=(int)(((long)(x)*x)%mod);
+    int temp2=(int)((2*(long)(x)*y)%mod);
+    int output=(temp1+temp2)%mod;
+    ans[h]=output;
+    return ans[h];
+    
+}
+int balancedBTs_2(int h){
+    int *ans=new int[h+1];
+    for(int i=0;i<=h;i++){
+        ans[i]=-1;
+    }
+    return balancedBTs_helper(h,ans);
+}
+int balancedBTs(int h){
+    if(h<=1){
+        return 1;
+    }
+    int mod=(int) (pow(10,9))+7;
+    int x=balancedBTs(h-1);
+    int y=balancedBTs(h-2);
+    int temp1=(int)(((long)(x)*x)%mod);
+    int temp2=(int)((2*(long)(x)*y)%mod);
+    int ans=(temp1+temp2)%mod;
+    //int ans=(x*x+2*x*y)%mod;
+    return ans;
+}
+int main(){
+    int h;
+    cin>>h;
+    cout<<balancedBTs_3(h)<<endl;
+    
+    
+    return 0;
+}
