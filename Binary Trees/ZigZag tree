@@ -1,0 +1,53 @@
+/**********************************************************
+	Following is the Binary Tree Node class structure
+
+	template <typename T>
+	class BinaryTreeNode {
+    	public : 
+    	T data;
+    	BinaryTreeNode<T> *left;
+    	BinaryTreeNode<T> *right;
+
+    	BinaryTreeNode(T data) {
+        	this -> data = data;
+        	left = NULL;
+        	right = NULL;
+    	}
+	};
+
+***********************************************************/
+#include<stack>
+void zigZagOrder(BinaryTreeNode<int> *root) {
+    if(root==NULL){
+        return;
+    }
+    stack<BinaryTreeNode<int>*> s1;
+    stack<BinaryTreeNode<int>*> s2;
+    s1.push(root);
+    while(!s1.empty()||!s2.empty()){
+    while(!s1.empty()){
+        BinaryTreeNode<int>* topmost=s1.top();
+        s1.pop();
+        if(topmost->left!=NULL){
+            s2.push(topmost->left);
+        }
+        if(topmost->right!=NULL){
+            s2.push(topmost->right);
+        }
+        cout<<topmost->data<<" ";
+    }
+    cout<<endl;
+    while(!s2.empty()){
+        BinaryTreeNode<int>* topmost=s2.top();
+        s2.pop();
+        if(topmost->right!=NULL){
+            s1.push(topmost->right);
+        }
+        if(topmost->left!=NULL){
+            s1.push(topmost->left);
+        }
+        cout<<topmost->data<<" ";
+    }
+        cout<<endl;
+   }
+}
