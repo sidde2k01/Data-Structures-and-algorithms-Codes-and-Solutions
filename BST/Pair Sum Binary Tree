@@ -1,0 +1,50 @@
+/**********************************************************
+	Following is the Binary Tree Node class structure
+
+	template <typename T>
+	class BinaryTreeNode {
+    	public : 
+    	T data;
+    	BinaryTreeNode<T> *left;
+    	BinaryTreeNode<T> *right;
+
+    	BinaryTreeNode(T data) {
+        	this -> data = data;
+        	left = NULL;
+        	right = NULL;
+    	}
+	};
+
+***********************************************************/
+#include<algorithm>
+#include<vector>
+int k=0;
+void convert(BinaryTreeNode<int>* root,int* ans){
+    if(root==NULL){
+        return;
+    }
+    ans[k]=root->data;
+    k++;
+    convert(root->left,ans);
+    convert(root->right,ans);
+}
+
+void pairSum(BinaryTreeNode<int> *root, int sum) {
+    int ans[100000000];
+    convert(root,ans);
+    sort(ans,ans+k);
+    int i=0;
+    int j=k-1;
+    while(i<j){
+        if(ans[i]+ans[j]==sum){
+            cout<<ans[i]<<" "<<ans[j]<<endl;
+            i++;j--;
+        }
+        else if(ans[i]+ans[j]>sum){
+            j--;
+        }
+        else if(ans[i]+ans[j]<sum){
+            i++;
+        }
+    }
+}
