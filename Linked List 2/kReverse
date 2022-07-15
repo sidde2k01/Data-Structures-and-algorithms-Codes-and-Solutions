@@ -1,0 +1,69 @@
+/****************************************************************
+ 
+    Following is the class structure of the Node class:
+
+        class Node
+        {
+        public:
+	        int data;
+	        Node *next;
+	        Node(int data)
+	        {
+		        this->data = data;
+		        this->next = NULL;
+	        }
+        };
+
+*****************************************************************/
+class Pair{
+    public:
+    Node* head;
+    Node* tail;
+    Pair(){
+        head=NULL;
+        tail=NULL;
+    }
+};
+Pair reverseLL(Node* head){
+    if(head==NULL||head->next==NULL){
+    Pair ans;
+    ans.head=head;
+    ans.tail=head;
+    return ans;
+    }
+    Node* prevptr=NULL;
+    Node* currentptr=head;
+    while(currentptr!=NULL){
+        Node* nextptr=currentptr->next;
+        currentptr->next=prevptr;
+        prevptr=currentptr;
+        currentptr=nextptr;
+    }
+    Pair ans;
+    ans.head=prevptr;
+    ans.tail=head;
+    return ans;
+}
+Node *kReverse(Node *head, int k){
+    if(head==NULL||head->next==NULL){
+        return head;
+    }
+    if(k==0){
+        return head;
+    }
+	Node* h1=head;
+    Node* t1=head;
+    int count=1;
+    while(count<k&&t1->next!=NULL){
+        t1=t1->next;
+        count++;
+    }
+    Node* h2=t1->next;
+    t1->next=NULL;
+    Pair finalans=reverseLL(h1);
+    h1=finalans.head;
+    t1=finalans.tail;
+    h2=kReverse(h2,k);
+    t1->next=h2;
+    return h1;
+}
