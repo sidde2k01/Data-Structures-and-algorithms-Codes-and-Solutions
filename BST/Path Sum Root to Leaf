@@ -1,0 +1,43 @@
+/**********************************************************
+
+	Following is the Binary Tree Node class structure
+
+	template <typename T>
+	class BinaryTreeNode {
+    	public : 
+    	T data;
+    	BinaryTreeNode<T> *left;
+    	BinaryTreeNode<T> *right;
+
+    	BinaryTreeNode(T data) {
+        	this -> data = data;
+        	left = NULL;
+        	right = NULL;
+    	}
+	};
+
+***********************************************************/
+void helper(BinaryTreeNode<int>* root,int k,vector<int> ans){
+    if(root==NULL){
+        return;
+    }
+    if(root->left==NULL&&root->right==NULL&&k==root->data){
+        ans.push_back(root->data);
+        for(int i=0;i<ans.size();i++){
+            cout<<ans[i]<<" ";
+        }
+        cout<<endl;
+        return;
+    }
+    if(root->left==NULL&&root->right==NULL&&k!=root->data){
+        return;     // no need for pop_back as every function i.e every recursive call
+        //has it's own static vector.
+    }
+    ans.push_back(root->data);
+    helper(root->left,k-root->data,ans);
+    helper(root->right,k-root->data,ans);
+}
+void rootToLeafPathsSumToK(BinaryTreeNode<int> *root, int k) {
+    vector<int> v;
+    helper(root,k,v);
+}
