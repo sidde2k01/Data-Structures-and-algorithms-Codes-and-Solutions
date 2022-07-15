@@ -1,0 +1,20 @@
+bool helper(char input[],int startindex){
+    if(input[startindex]=='\0'){
+        return true;
+    }
+    if(input[startindex]!='a'){
+        return false;
+    }
+    if(input[startindex+1]!='\0'&&input[startindex+2]!='\0'){
+        if(input[startindex+1]=='b'&&input[startindex+2]=='b'){
+            return helper(input,startindex+3);
+        }
+    }
+    return helper(input,startindex+1);
+}
+bool checkAB(char input[]) {
+	return helper(input,0);
+}
+
+
+
