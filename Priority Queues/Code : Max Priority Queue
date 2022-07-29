@@ -1,0 +1,79 @@
+#include<climits>
+#include<vector>
+class PriorityQueue {
+    vector<int> pq;
+
+   public:
+    PriorityQueue() {
+        // Implement the constructor here
+    }
+
+    /**************** Implement all the public functions here ***************/
+
+    void insert(int element) {
+        pq.push_back(element);
+        int childindex=pq.size()-1;
+        
+        while(childindex>0){
+            int parentindex=(childindex-1)/2;
+            if(pq[parentindex]<pq[childindex]){
+                int temp=pq[parentindex];
+                pq[parentindex]=pq[childindex];
+                pq[childindex]=temp;
+            }
+            else{
+                break;
+            }
+            childindex=parentindex;
+        }
+    }
+
+    int getMax() {
+        if(isEmpty()){
+            return INT_MIN;
+        }
+        return pq[0];
+    }
+
+    int removeMax() {
+        if(isEmpty()){
+            return INT_MIN;
+        }
+        int ans=pq[0];
+        pq[0]=pq[pq.size()-1];
+        pq.pop_back();
+        int parentindex=0;
+        int lci=2*parentindex+1;
+        int rci=2*parentindex+2;
+        while(lci<pq.size()){
+            int maxIndex=parentindex;
+            if(pq[maxIndex]<pq[lci]){
+                maxIndex=lci;
+            }
+            if(rci<pq.size()&&pq[maxIndex]<pq[rci]){
+                maxIndex=rci;
+            }
+            if(maxIndex==parentindex){
+                break;
+            }
+            int temp=pq[parentindex];
+            pq[parentindex]=pq[maxIndex];
+            pq[maxIndex]=temp;
+            parentindex=maxIndex;
+            lci=2*parentindex+1;
+            rci=2*parentindex+2;
+        }
+        return ans;
+    }
+
+    int getSize() { 
+        if(isEmpty()){
+            return 0;
+        }
+        return pq.size();
+    }
+
+    bool isEmpty() {
+        return pq.size()==0;
+    }
+};
