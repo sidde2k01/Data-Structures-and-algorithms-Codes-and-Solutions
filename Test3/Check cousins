@@ -1,0 +1,63 @@
+// Following is the Binary Tree node structure
+/**************
+class BinaryTreeNode {
+    public : 
+    T data;
+    BinaryTreeNode<T> *left;
+    BinaryTreeNode<T> *right;
+
+    BinaryTreeNode(T data) {
+        this -> data = data;
+        left = NULL;
+        right = NULL;
+    }
+};
+***************/
+bool siblings(BinaryTreeNode<int>* root,int p,int q){
+    if(root==NULL){
+        return false;
+    }
+    if(root->left!=NULL&&root->right!=NULL){
+        return (root->left->data==p&&root->right->data==q)||(root->left->data==q&&root->right->data==p)
+            ||(siblings(root->left,p,q))||(siblings(root->right,p,q));
+    }
+    else if(root->left==NULL){
+        return siblings(root->right,p,q);
+    }
+    else{
+        return siblings(root->left,p,q);
+    }
+}
+int checklevel(BinaryTreeNode<int>* root,int k){
+    if(root==NULL){
+        return -1;
+    }
+    if(root->data==k){
+        return 0;
+    }
+    int leftlevel=checklevel(root->left,k);
+    if(leftlevel!=-1){
+        return leftlevel+1;
+    }
+    int rightlevel=checklevel(root->right,k);
+    if(rightlevel!=-1){
+        return rightlevel+1;
+    }
+    else{
+        return -1;
+    }
+}
+bool isCousin(BinaryTreeNode<int> *root, int p, int q) {
+    if(root==NULL){
+        return false;
+    }
+    int plevel=checklevel(root,p);
+    int qlevel=checklevel(root,q);
+    if(plevel!=qlevel||(plevel==-1&&qlevel==-1)){
+        return false;
+    }
+    if(siblings(root,p,q)){
+        return false;
+    }
+    return true;
+}
