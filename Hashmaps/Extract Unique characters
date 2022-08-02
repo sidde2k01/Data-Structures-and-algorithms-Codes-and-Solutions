@@ -1,0 +1,16 @@
+#include<string>
+#include<unordered_map>
+string uniqueChar(string str) {
+	string ans="";
+    unordered_map<char,bool> ourmap;
+    for(int i=0;i<str.length();i++){
+        if(ourmap[str[i]]==true){
+            continue;
+        }
+        else{
+            ourmap[str[i]]=true;
+            ans=ans+str[i];
+        }
+    }
+    return ans;
+}
