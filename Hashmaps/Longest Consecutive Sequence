@@ -1,0 +1,52 @@
+#include<unordered_map>
+vector<int> longestConsecutiveIncreasingSequence(int *arr, int n) {
+    unordered_map<int,int> ourmap;
+    bool isStarting=false;
+    for(int i=0;i<n;i++){
+        ourmap[arr[i]]=1;
+    }
+    int overallmax=0;
+    int overallstart;
+    int overallend;
+    int start;
+    int prev;
+    for(int i=0;i<n;i++){
+        if(ourmap[arr[i]]==1){
+            start=arr[i];
+            int maxlength=1;
+            int temp=start+1;
+            while(ourmap[temp]>0){
+                maxlength+=1;
+                ourmap[temp]=0;
+                temp++;
+            }
+            temp=start-1;
+            if(ourmap[temp]!=1){
+                prev=start;
+            }
+            else{
+                while(ourmap[temp]==1){
+                    maxlength+=1;
+                    ourmap[temp]=0;
+                    prev=temp;
+                    temp--;
+                }
+            }
+            if(maxlength>overallmax||(maxlength==overallmax&&!isStarting)){
+                if(maxlength>overallmax){
+                    isStarting=false;
+                }
+                overallmax=maxlength;
+                overallstart=prev;
+                overallend=overallstart+overallmax-1;
+                if(arr[i]==overallstart){
+                    isStarting=true;
+                }
+            }
+        }
+    }
+    vector<int> ans;
+    ans.push_back(overallstart);
+    ans.push_back(overallend);
+    return ans;
+}
